@@ -11,7 +11,6 @@
 		<code-examples>
 			<code-example id="codeExample">
 				<ko><![CDATA[
-
 					@isTest
 public class Foo {
     @isTest
@@ -22,7 +21,6 @@ public class Foo {
         System.assert(o.isClosed, 'Opportunity is not closed.'); // good
     }
 }
-
         ]]></ko>
 				<ok><![CDATA[]]></ok>
 			</code-example>
