@@ -5,7 +5,7 @@
 		<java-class>com.als.core.NullRule</java-class>
 		<java-version>1.8</java-version>
 		<tags>apex</tags>
-		<reference><![CDATA[https://pmd.github.io/pmd/pmd_rules_apex_codestyle.html#FOrmalParameterNamingConventions]]></reference>
+		<reference><![CDATA[https://pmd.github.io/pmd/pmd_rules_apex_codestyle.html#formalparameternamingconventions]]></reference>
 
 		<parameters/>
 		<code-examples>

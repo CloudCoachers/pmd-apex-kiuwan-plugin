@@ -5,7 +5,7 @@
 		<java-class>com.als.core.NullRule</java-class>
 		<java-version>1.8</java-version>
 		<tags>apex</tags>
-		<reference><![CDATA[https://pmd.github.io/pmd/pmd_rules_apex_performance.html#AvoidDebugStatements]]></reference>
+		<reference><![CDATA[https://pmd.github.io/pmd/pmd_rules_apex_performance.html#avoiddebugstatements]]></reference>
 
 		<parameters/>
 		<code-examples>

@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <rule-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.optimyth.com/schema/definitions/rule" version="1.0">
-	<rule id="CUS.OTHER.PMD.APEX.PropertyNamingConventions">
+	<rule id="CUS.OTHER.PMD.APEX.FieldDeclarationsShouldBeAtStart">
 		<java-class>com.als.core.NullRule</java-class>
 		<java-version>1.8</java-version>
 		<tags>apex</tags>
-		<reference><![CDATA[https://pmd.github.io/pmd/pmd_rules_apex_codestyle.html#propertynamingconventions]]></reference>
+		<reference><![CDATA[https://pmd.github.io/pmd/pmd_rules_apex_codestyle.html#fielddeclarationsdhouldbeatstart]]></reference>
 
 		<parameters/>
 		<code-examples>
 			<code-example id="codeExample">
 				<ko><![CDATA[
-public class Foo {
-    public Integer instanceProperty { get; set; } // This is in camel case, so it's ok
+class Foo {
+    public Integer someField; 
 
-    public Integer INSTANCE_PROPERTY { get; set; } // This will be reported unless you change the regex
+    public void someMethod() {
+    }
+
+    public Integer anotherField; 
 }
 ]]></ko>
 				<ok><![CDATA[]]></ok>
@@ -26,20 +29,18 @@ public class Foo {
 
 		<criteria-values>
 			<criterium-value ref="OPT.CRITERIUM_VALUE.LANGUAGE_PARSER.OTHER" />
-			<criterium-value ref="OPT.CRITERIUM_VALUE.PRIORITY.HIGH" />
+			<criterium-value ref="OPT.CRITERIUM_VALUE.PRIORITY.MEDIUM" />
 			<criterium-value ref="OPT.CRITERIUM_VALUE.REPAIR_DIFFICULTY.LOW" />
 			<criterium-value ref="OPT.CRITERIUM_VALUE.ENGINE.OTHER" />
 			<criterium-value ref="OPT.CRITERIUM_VALUE.CQM.MAINTAINABILITY" />
 			
 		</criteria-values>
-
 		<i18ns>
 			<i18n ref="OPT.LANGUAGE.ENGLISH">
-				<name><![CDATA[Property Naming Conventions]]></name>
+				<name><![CDATA[Field Declarations Should Be At Start]]></name>
 				<message><![CDATA[]]></message>
 				<description><![CDATA[
-Configurable naming conventions for property declarations. 
-This rule reports property declarations which do not match the regex that applies to their specific kind (e.g. static property, or instance property). Each regex can be configured through properties.
+Field declarations should appear before method declarations within a class.
         ]]></description>
 				<benefits><![CDATA[]]></benefits>
 				<drawbacks><![CDATA[]]></drawbacks>
