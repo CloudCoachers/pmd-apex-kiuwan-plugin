@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rule-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.optimyth.com/schema/definitions/rule" version="1.0">
+	<rule id="CUS.OTHER.PMD.APEX.CongnitiveComplexity">
+		<java-class>com.als.core.NullRule</java-class>
+		<java-version>1.8</java-version>
+		<tags>apex</tags>
+		<reference><![CDATA[https://pmd.github.io/pmd/pmd_rules_apex_design.html#CognitiveComplexity]]></reference>
+
+		<parameters/>
+		<code-examples>
+			<code-example id="codeExample">
+				<ko><![CDATA[
+public class Foo {
+    // Has a cognitive complexity of 0
+    public void createAccount() {
+        Account account = new Account(Name = 'PMD');
+        insert account;
+    }
+
+    // Has a cognitive complexity of 1
+    public Boolean setPhoneNumberIfNotExisting(Account a, String phone) {
+        if (a.Phone == null) {                          // +1
+            a.Phone = phone;
+            update a;
+            return true;
+        }
+
+        return false;
+    }
+
+    // Has a cognitive complexity of 4
+    public void updateContacts(List<Contact> contacts) {
+        List<Contact> contactsToUpdate = new List<Contact>();
+
+        for (Contact contact : contacts) {                           // +1
+            if (contact.Department == 'Finance') {                   // +2 (nesting = 1)
+                contact.Title = 'Finance Specialist';
+                contactsToUpdate.add(contact);
+            } else if (contact.Department == 'Sales') {              // +1
+                contact.Title = 'Sales Specialist';
+                contactsToUpdate.add(contact);
+            }
+        }
+
+        update contactsToUpdate;
+    }
+}
+        ]]></ko>
+				<ok><![CDATA[]]></ok>
+			</code-example>
+		</code-examples>
+    
+    	<incompatibilities />
+		<related-rules />
+
+		<criteria-values>
+			<criterium-value ref="OPT.CRITERIUM_VALUE.LANGUAGE_PARSER.OTHER" />
+			<criterium-value ref="OPT.CRITERIUM_VALUE.PRIORITY.MEDIUM" />
+			<criterium-value ref="OPT.CRITERIUM_VALUE.REPAIR_DIFFICULTY.LOW" />
+			<criterium-value ref="OPT.CRITERIUM_VALUE.ENGINE.OTHER" />
+			<criterium-value ref="OPT.CRITERIUM_VALUE.CQM.MAINTAINABILITY" />
+			
+		</criteria-values>
+
+		<i18ns>
+			<i18n ref="OPT.LANGUAGE.ENGLISH">
+				<name><![CDATA[Cognitive Complexity]]></name>
+				<message><![CDATA[]]></message>
+				<description><![CDATA[
+Methods that are highly complex are difficult to read and more costly to maintain.
+If you include too much decisional logic within a single method, you make its behavior hard to understand and more difficult to modify.
+        ]]></description>
+				<benefits><![CDATA[]]></benefits>
+				<drawbacks><![CDATA[]]></drawbacks>
+				<parameters/>
+			</i18n>
+		</i18ns>
+
+	</rule>
+</rule-definition>
