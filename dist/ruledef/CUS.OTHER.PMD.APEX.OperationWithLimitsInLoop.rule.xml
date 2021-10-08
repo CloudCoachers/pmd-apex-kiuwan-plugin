@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rule-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.optimyth.com/schema/definitions/rule" version="1.0">
+	<rule id="CUS.OTHER.PMD.APEX.OperationWithLimitsInLoop">
+		<java-class>com.als.core.NullRule</java-class>
+		<java-version>1.8</java-version>
+		<tags>apex</tags>
+		<reference><![CDATA[https://pmd.github.io/pmd/pmd_rules_apex_performance.html#OperationWithLimitsInLoop]]></reference>
+
+		<parameters/>
+		<code-examples>
+			<code-example id="codeExample">
+				<ko><![CDATA[
+
+public class Something {
+    public void databaseMethodInsideOfLoop(List<Account> accounts) {
+        for (Account a : accounts) {
+            Database.insert(a);
+        }
+    }
+
+    public void dmlInsideOfLoop() {
+        for (Integer i = 0; i < 151; i++) {
+            Account account;
+            // ...
+            insert account;
+        }
+    }
+
+    public void soqlInsideOfLoop() {
+        for (Integer i = 0; i < 10; i++) {
+            List<Account> accounts = [SELECT Id FROM Account];
+        }
+    }
+
+    public void soslInsideOfLoop() {
+        for (Integer i = 0; i < 10; i++) {
+            List<List<SObject>> searchList = [FIND 'map*' IN ALL FIELDS RETURNING Account (Id, Name), Contact, Opportunity, Lead];
+        }
+    }
+
+    public void messageInsideOfLoop() {
+        for (Integer i = 0; i < 10; i++) {
+            Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
+            Messaging.sendEmail(new Messaging.SingleEmailMessage[]{email});
+        }
+    }
+
+    public void approvalInsideOfLoop(Account[] accs) {
+        for (Integer i = 0; i < 10; i++) {
+            Account acc = accs[i];
+            Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest();
+            req.setObjectId(acc.Id);
+            Approval.process(req);
+            Approval.lock(acc);
+            Approval.unlock(acc);
+        }
+    }
+
+    public void asyncInsideOfLoop() {
+        for (Integer i = 0; i < 10; i++) {
+            System.enqueueJob(new MyQueueable());
+            System.schedule('x', '0 0 0 1 1 ?', new MySchedule());
+            System.scheduleBatch(new MyBatch(), 'x', 1);
+        }
+    }
+}
+
+
+        ]]></ko>
+				<ok><![CDATA[]]></ok>
+			</code-example>
+		</code-examples>
+    
+    	<incompatibilities />
+		<related-rules />
+
+		<criteria-values>
+			<criterium-value ref="OPT.CRITERIUM_VALUE.LANGUAGE_PARSER.OTHER" />
+			<criterium-value ref="OPT.CRITERIUM_VALUE.PRIORITY.MEDIUM" />
+			<criterium-value ref="OPT.CRITERIUM_VALUE.REPAIR_DIFFICULTY.LOW" />
+			<criterium-value ref="OPT.CRITERIUM_VALUE.ENGINE.OTHER" />
+			<criterium-value ref="OPT.CRITERIUM_VALUE.CQM.MAINTAINABILITY" />
+			
+		</criteria-values>
+
+		<i18ns>
+			<i18n ref="OPT.LANGUAGE.ENGLISH">
+				<name><![CDATA[Operation With Limits In Loop]]></name>
+				<message><![CDATA[]]></message>
+				<description><![CDATA[
+Database class methods, DML operations, SOQL queries, SOSL queries, Approval class methods, Email sending, 
+async scheduling or queueing within loops can cause governor limit exceptions.
+ Instead, try to batch up the data into a list and invoke the operation once on that list of data outside the loop.
+        ]]></description>
+				<benefits><![CDATA[]]></benefits>
+				<drawbacks><![CDATA[]]></drawbacks>
+				<parameters/>
+			</i18n>
+		</i18ns>
+
+	</rule>
+</rule-definition>
